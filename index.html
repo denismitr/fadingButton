@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Fading Button Example</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>  
+</head>
+<body>
+
+    <div class="container">
+
+        <article style="margin-bottom:20px;">
+            <p style="margin-bottom: 20px;">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
+                vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
+                no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            </p>
+
+            <a class="anotherButton" href="#">Кнопка</a>
+            <a class="anotherButton" href="#">Ещё одна кнопка</a>
+
+            <p>
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
+                vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
+                no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            </p>
+
+            <p>
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
+                vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
+                no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            </p>
+        </article>
+    
+        <a class="fadingButton" href="#">Нажать</a>
+        <a class="fadingButton" href="#">Push again</a>
+    
+    </div>
+
+
+    <script src="assert.js"></script>
+    <script src="jquery.fadingButton.js"></script>
+    <script>
+       
+        $(document).ready(function() {
+            $('.fadingButton').fadingButton({
+                color: '#D0008E',
+                fontColor: '#efefef',
+                horizontalPadding: '20px',
+                verticalPadding: '15px',
+                makeFontBold: false
+            }).css('fontWeight', 'bold');
+
+            $('.anotherButton').fadingButton({
+                color: '#1B6B62',
+                fontColor: '#aaa',
+                makeFontBold: true
+            }).css('boxShadow', '2px 2px 5px rgb(0, 0, 0)').css('marginBottom', '30px');
+        });
+
+    </script>
+</body>
+</html>
