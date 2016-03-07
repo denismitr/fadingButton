@@ -18,8 +18,6 @@
             this.$el = $el;
             this.renderNormalView();
             this.assignEvents();
-            console.log($el, opts);
-            
         },
 
         //Set css attributes for the view in the 'peace state'
@@ -37,77 +35,82 @@
             });
         },
 
-        fadeButton: function() {
+        fadeButton: function($animatedElement, theOpts) {
 
+            $({ op: 9 })
+                .animate({ 
+                    op: 0 
+                },
+                {
+                    step: function( op ) {
+
+                        $animatedElement.css({backgroundColor: 'rgba(' + theOpts.color + ', 0.' + parseInt(op) + ')'});
+                            
+                        // On half-way change the color of the font
+                        if (parseInt(op) <= 5 && parseInt(op) >= 3) 
+                        {
+                            // Make font bold if speciefied in the options
+                            if (theOpts.makeFontBold === true) $animatedElement.css('fontWeight', 'bold');
+
+                            $animatedElement.css('color', 'rgb(' + theOpts.color + ')'); 
+                        }
+                    },
+
+                    duration: theOpts.duration
+            });
         },
 
 
-        unfadeButon: function() {
+        unfadeButton: function($animatedElement, theOpts) {
+
+            $({ op: 0 })
+                .animate({ 
+                    op: 9 
+                },
+                {
+                    step: function( op ) {
+                        
+                        $animatedElement.css({backgroundColor: 'rgba(' + theOpts.color + ', 0.' + parseInt(op) + ')'});
+
+                        // On half-way change the color of the font
+                        if (parseInt(op) <= 5 && parseInt(op) >= 3) 
+                        {
+                            // Return font weight to normal if it actually was made bold during the first faze of animation
+                            if (theOpts.makeFontBold === true) $animatedElement.css('fontWeight', 'normal');
+
+                            $animatedElement.css('color', 'rgb(' + theOpts.fontColor + ')'); 
+                        }
+                    },
+
+                    complete: function() {
+                        // Opacity is completely off
+                        $animatedElement.css('backgroundColor', 'rgba(' + theOpts.color + ', 1)');
+
+                    },
+
+                    duration: theOpts.duration
+            });
 
         },
 
         assignEvents: function() {
 
             var $animatedElement = this.$el;
-            var thatOpts = this.opts;
+
+            //In case of different sets of buttons with different options saves necessary opts in the closure
+            var theOpts = this.opts;
 
             $animatedElement.hover(function() {
                 //Hover starts
                 
-                $({ op: 9 })
-                    .animate({ 
-                        op: 0 
-                    },
-                    {
-                        step: function( op ) {
+                this.fadeButton($animatedElement, theOpts);
 
-                            $animatedElement.css({backgroundColor: 'rgba(' + thatOpts.color + ', 0.' + parseInt(op) + ')'});
-                                
-                            // On half-way change the color of the font
-                            if (parseInt(op) <= 5 && parseInt(op) >= 3) 
-                            {
-                                // Make font bold if speciefied in the options
-                                if (thatOpts.makeFontBold === true) $animatedElement.css('fontWeight', 'bold');
-
-                                $animatedElement.css('color', 'rgb(' + thatOpts.color + ')'); 
-                            }
-                        },
-
-                        duration: thatOpts.duration
-                    });
-
-            }, function() {
+            }.bind(this), function() {
                 //Mouse goes away
                 
-                $({ op: 0 })
-                    .animate({ 
-                        op: 9 
-                    },
-                    {
-                        step: function( op ) {
-                            
-                            $animatedElement.css({backgroundColor: 'rgba(' + thatOpts.color + ', 0.' + parseInt(op) + ')'});
+                this.unfadeButton($animatedElement, theOpts);
 
-                            // On half-way change the color of the font
-                            if (parseInt(op) <= 5 && parseInt(op) >= 3) 
-                            {
-                                // Return font weight to normal if it actually was made bold during the first faze of animation
-                                if (thatOpts.makeFontBold === true) $animatedElement.css('fontWeight', 'normal');
-
-                                $animatedElement.css('color', 'rgb(' + thatOpts.fontColor + ')'); 
-                            }
-                        },
-
-                        complete: function() {
-                            // Opacity is completely off
-                            $animatedElement.css('backgroundColor', 'rgba(' + thatOpts.color + ', 1)');
-
-                        },
-
-                        duration: thatOpts.duration
-                    });
-
-            });
+            }.bind(this));
         }
 
     };
@@ -140,7 +143,7 @@
             fontColor: '#fff',
             verticalPadding: '13px',
             horizontalPadding: '12px',
-            makeFontBold: true,
+            makeFontBold: false,
             duration: 1000
         }, options);
 
